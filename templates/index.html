@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <title>Flower Detection</title>
+</head>
+<body>
+    <div class="container text-center">
+        <h1 class="custom-heading">Upload an Image for Processing</h1>
+        <form action="/" method="post" enctype="multipart/form-data" class="custom-form">
+            <div class="mb-3">
+                <input type="file" name="file" accept="image/*" class="form-control">
+            </div>
+            <button type="submit" class="btn custom-button">Upload</button>
+        </form>
+        
+        {% if result_image %}
+            <h2>Processed Image:</h2>
+            <img src="{{ result_image }}" alt="Processed Image" class="img-fluid">
+            
+            <h3>Section with Highest Count:</h3>
+            <p class="lead">The section with the highest count is <strong>{{ max_section }}</strong> with <strong>{{ max_count }}</strong> flowers.</p>
+            
+            {% if data_from_db %}
+                <h3>MongoDB Data for {{ max_section }} Section:</h3>
+                <ul class="list-group">
+                    {% for key, value in data_from_db.items() %}
+                        <li class="list-group-item">
+                            <strong>{{ key }}:</strong> {{ value }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-dk9e4vA4Rl4jOG5czjvPryTcjU9n33zI48M8pVbfgJ2YkCFhQBLfcHGgP7OhpXKp" crossorigin="anonymous"></script>
+</body>
+</html>
